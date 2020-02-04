@@ -1,2 +1,2 @@
 # Gossamer Official Launcher
-Laucher for Gossamer.
+Laucher for Gossamer. Written in C++
