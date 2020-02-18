@@ -231,7 +231,10 @@ namespace gossamerlauncher {
 		Form::WindowState = FormWindowState::Minimized;
 	}
 	private: System::Void launchGossamer_Click(System::Object^ sender, System::EventArgs^ e) {
-		Process::Start("data\\pjgossamer.exe");
+		Process::Start("data\\binaries\\win64\\pjgossamer.exe");
+	}
+	private: System::Void launchDedserv_Click(System::Object^ sender, System::EventArgs^ e) {
+	        Process::Start("dedserv.exe");
 	}
 	private: System::Void StartupForm_Load(System::Object^ sender, System::EventArgs^ e) {
 		this->optionsBtn->Visible = false;
