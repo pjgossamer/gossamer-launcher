@@ -239,7 +239,6 @@ namespace gossamerlauncher {
 	}
 	private: System::Void StartupForm_Load(System::Object^ sender, System::EventArgs^ e) {
 		this->optionsBtn->Visible = false;
-		this->launchDedserver->Visible = false;
 	}
 	private: System::Void exitAltBtn_Click(System::Object^ sender, System::EventArgs^ e) {
 		Application::Exit();
