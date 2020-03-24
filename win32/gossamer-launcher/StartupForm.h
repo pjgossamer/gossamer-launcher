@@ -148,7 +148,6 @@ namespace gossamerlauncher {
 			this->launchDedserver->Name = L"launchDedserver";
 			this->launchDedserver->TabStop = false;
 			this->launchDedserver->UseVisualStyleBackColor = false;
-			this->launchDedserver->Click += gcnew System::EventHandlet(this, &StartupForm::launchDedserver_Click);
 			// 
 			// optionsBtn
 			// 
@@ -232,13 +231,14 @@ namespace gossamerlauncher {
 		Form::WindowState = FormWindowState::Minimized;
 	}
 	private: System::Void launchGossamer_Click(System::Object^ sender, System::EventArgs^ e) {
-		Process::Start("data\\binaries\\win64\\pjgossamer.exe");
+		Process::Start("pjgossamer.exe");
 	}
 	private: System::Void launchDedserver_Click(System::Object^ sender, System::EventArgs^ e) {
 	        Process::Start("dedserv.exe");
 	}
 	private: System::Void StartupForm_Load(System::Object^ sender, System::EventArgs^ e) {
-		this->optionsBtn->Visible = false;
+		//this->optionsBtn->Visible = false;
+		this->launchDedserver->Visible = false;
 	}
 	private: System::Void exitAltBtn_Click(System::Object^ sender, System::EventArgs^ e) {
 		Application::Exit();

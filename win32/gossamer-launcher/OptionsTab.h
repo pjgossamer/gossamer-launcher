@@ -8,6 +8,7 @@ namespace gossamerlauncher {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::Diagnostics;
 
 	/// <summary>
 	/// Summary for OptionsTab
@@ -49,6 +50,11 @@ namespace gossamerlauncher {
 	private: System::Windows::Forms::ToolStripMenuItem^ exitToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ help;
 	private: System::Windows::Forms::ToolStripMenuItem^ aboutToolStripMenuItem;
+	private: System::Windows::Forms::Button^ launchGossamerBtn;
+	private: System::Windows::Forms::Button^ cancelGossamerBtn;
+	private: System::Windows::Forms::ToolStripMenuItem^ openToolStripMenuItem;
+
+
 
 	private:
 		/// <summary>
@@ -65,18 +71,21 @@ namespace gossamerlauncher {
 		{
 			this->tabControl = (gcnew System::Windows::Forms::TabControl());
 			this->gameTab = (gcnew System::Windows::Forms::TabPage());
-			this->dedservTab = (gcnew System::Windows::Forms::TabPage());
-			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->launchGossamerBtn = (gcnew System::Windows::Forms::Button());
+			this->cancelGossamerBtn = (gcnew System::Windows::Forms::Button());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
-			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->dedservTab = (gcnew System::Windows::Forms::TabPage());
 			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
+			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->file = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->help = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->saveToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->toolStripSeparator1 = (gcnew System::Windows::Forms::ToolStripSeparator());
 			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->help = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->openToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->tabControl->SuspendLayout();
 			this->gameTab->SuspendLayout();
 			this->dedservTab->SuspendLayout();
@@ -90,32 +99,50 @@ namespace gossamerlauncher {
 			this->tabControl->Location = System::Drawing::Point(0, 22);
 			this->tabControl->Name = L"tabControl";
 			this->tabControl->SelectedIndex = 0;
-			this->tabControl->Size = System::Drawing::Size(338, 246);
+			this->tabControl->Size = System::Drawing::Size(338, 273);
 			this->tabControl->TabIndex = 0;
 			// 
 			// gameTab
 			// 
+			this->gameTab->Controls->Add(this->launchGossamerBtn);
+			this->gameTab->Controls->Add(this->cancelGossamerBtn);
 			this->gameTab->Controls->Add(this->textBox1);
 			this->gameTab->Controls->Add(this->label1);
 			this->gameTab->Location = System::Drawing::Point(4, 22);
 			this->gameTab->Name = L"gameTab";
 			this->gameTab->Padding = System::Windows::Forms::Padding(3);
-			this->gameTab->Size = System::Drawing::Size(330, 220);
+			this->gameTab->Size = System::Drawing::Size(330, 247);
 			this->gameTab->TabIndex = 0;
 			this->gameTab->Text = L"Gossamer";
 			this->gameTab->UseVisualStyleBackColor = true;
 			// 
-			// dedservTab
+			// launchGossamerBtn
 			// 
-			this->dedservTab->Controls->Add(this->textBox2);
-			this->dedservTab->Controls->Add(this->label2);
-			this->dedservTab->Location = System::Drawing::Point(4, 22);
-			this->dedservTab->Name = L"dedservTab";
-			this->dedservTab->Padding = System::Windows::Forms::Padding(3);
-			this->dedservTab->Size = System::Drawing::Size(330, 220);
-			this->dedservTab->TabIndex = 1;
-			this->dedservTab->Text = L"Dedicated Server";
-			this->dedservTab->UseVisualStyleBackColor = true;
+			this->launchGossamerBtn->Location = System::Drawing::Point(249, 217);
+			this->launchGossamerBtn->Name = L"launchGossamerBtn";
+			this->launchGossamerBtn->Size = System::Drawing::Size(75, 23);
+			this->launchGossamerBtn->TabIndex = 2;
+			this->launchGossamerBtn->Text = L"&OK";
+			this->launchGossamerBtn->UseVisualStyleBackColor = true;
+			this->launchGossamerBtn->Click += gcnew System::EventHandler(this, &OptionsTab::launchBtn_Click);
+			// 
+			// cancelGossamerBtn
+			// 
+			this->cancelGossamerBtn->Location = System::Drawing::Point(168, 217);
+			this->cancelGossamerBtn->Name = L"cancelGossamerBtn";
+			this->cancelGossamerBtn->Size = System::Drawing::Size(75, 23);
+			this->cancelGossamerBtn->TabIndex = 3;
+			this->cancelGossamerBtn->Text = L"&Cancel";
+			this->cancelGossamerBtn->UseVisualStyleBackColor = true;
+			this->cancelGossamerBtn->Click += gcnew System::EventHandler(this, &OptionsTab::cancelBtn_Click);
+			// 
+			// textBox1
+			// 
+			this->textBox1->Location = System::Drawing::Point(7, 24);
+			this->textBox1->Multiline = true;
+			this->textBox1->Name = L"textBox1";
+			this->textBox1->Size = System::Drawing::Size(317, 187);
+			this->textBox1->TabIndex = 1;
 			// 
 			// label1
 			// 
@@ -126,13 +153,25 @@ namespace gossamerlauncher {
 			this->label1->TabIndex = 0;
 			this->label1->Text = L"Enter Commands to Pass to Gossamer:";
 			// 
-			// textBox1
+			// dedservTab
 			// 
-			this->textBox1->Location = System::Drawing::Point(7, 24);
-			this->textBox1->Multiline = true;
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(317, 187);
-			this->textBox1->TabIndex = 1;
+			this->dedservTab->Controls->Add(this->textBox2);
+			this->dedservTab->Controls->Add(this->label2);
+			this->dedservTab->Location = System::Drawing::Point(4, 22);
+			this->dedservTab->Name = L"dedservTab";
+			this->dedservTab->Padding = System::Windows::Forms::Padding(3);
+			this->dedservTab->Size = System::Drawing::Size(330, 247);
+			this->dedservTab->TabIndex = 1;
+			this->dedservTab->Text = L"Dedicated Server";
+			this->dedservTab->UseVisualStyleBackColor = true;
+			// 
+			// textBox2
+			// 
+			this->textBox2->Location = System::Drawing::Point(6, 23);
+			this->textBox2->Multiline = true;
+			this->textBox2->Name = L"textBox2";
+			this->textBox2->Size = System::Drawing::Size(318, 188);
+			this->textBox2->TabIndex = 1;
 			// 
 			// label2
 			// 
@@ -142,14 +181,6 @@ namespace gossamerlauncher {
 			this->label2->Size = System::Drawing::Size(226, 13);
 			this->label2->TabIndex = 0;
 			this->label2->Text = L"Enter Commands to Pass to Dedicated Server:";
-			// 
-			// textBox2
-			// 
-			this->textBox2->Location = System::Drawing::Point(6, 23);
-			this->textBox2->Multiline = true;
-			this->textBox2->Name = L"textBox2";
-			this->textBox2->Size = System::Drawing::Size(318, 188);
-			this->textBox2->TabIndex = 1;
 			// 
 			// menuStrip1
 			// 
@@ -163,24 +194,18 @@ namespace gossamerlauncher {
 			// 
 			// file
 			// 
-			this->file->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
-				this->saveToolStripMenuItem,
-					this->toolStripSeparator1, this->exitToolStripMenuItem
+			this->file->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4) {
+				this->openToolStripMenuItem,
+					this->saveToolStripMenuItem, this->toolStripSeparator1, this->exitToolStripMenuItem
 			});
 			this->file->Name = L"file";
 			this->file->Size = System::Drawing::Size(37, 20);
 			this->file->Text = L"&File";
 			// 
-			// help
-			// 
-			this->help->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->aboutToolStripMenuItem });
-			this->help->Name = L"help";
-			this->help->Size = System::Drawing::Size(44, 20);
-			this->help->Text = L"&Help";
-			// 
 			// saveToolStripMenuItem
 			// 
 			this->saveToolStripMenuItem->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
+			this->saveToolStripMenuItem->Enabled = false;
 			this->saveToolStripMenuItem->Name = L"saveToolStripMenuItem";
 			this->saveToolStripMenuItem->Size = System::Drawing::Size(180, 22);
 			this->saveToolStripMenuItem->Text = L"&Save";
@@ -196,19 +221,35 @@ namespace gossamerlauncher {
 			this->exitToolStripMenuItem->Name = L"exitToolStripMenuItem";
 			this->exitToolStripMenuItem->Size = System::Drawing::Size(180, 22);
 			this->exitToolStripMenuItem->Text = L"E&xit";
+			this->exitToolStripMenuItem->Click += gcnew System::EventHandler(this, &OptionsTab::exitToolStripMenuItem_Click);
+			// 
+			// help
+			// 
+			this->help->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->aboutToolStripMenuItem });
+			this->help->Name = L"help";
+			this->help->Size = System::Drawing::Size(44, 20);
+			this->help->Text = L"&Help";
 			// 
 			// aboutToolStripMenuItem
 			// 
 			this->aboutToolStripMenuItem->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 			this->aboutToolStripMenuItem->Name = L"aboutToolStripMenuItem";
-			this->aboutToolStripMenuItem->Size = System::Drawing::Size(180, 22);
-			this->aboutToolStripMenuItem->Text = L"About";
+			this->aboutToolStripMenuItem->Size = System::Drawing::Size(182, 22);
+			this->aboutToolStripMenuItem->Text = L"Console Commands";
+			this->aboutToolStripMenuItem->Click += gcnew System::EventHandler(this, &OptionsTab::aboutToolStripMenuItem_Click);
+			// 
+			// openToolStripMenuItem
+			// 
+			this->openToolStripMenuItem->Enabled = false;
+			this->openToolStripMenuItem->Name = L"openToolStripMenuItem";
+			this->openToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->openToolStripMenuItem->Text = L"&Open";
 			// 
 			// OptionsTab
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(336, 268);
+			this->ClientSize = System::Drawing::Size(336, 292);
 			this->Controls->Add(this->tabControl);
 			this->Controls->Add(this->menuStrip1);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
@@ -221,6 +262,7 @@ namespace gossamerlauncher {
 			this->SizeGripStyle = System::Windows::Forms::SizeGripStyle::Hide;
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"Options - Gossamer";
+			this->Load += gcnew System::EventHandler(this, &OptionsTab::OptionsTab_Load);
 			this->tabControl->ResumeLayout(false);
 			this->gameTab->ResumeLayout(false);
 			this->gameTab->PerformLayout();
@@ -233,5 +275,21 @@ namespace gossamerlauncher {
 
 		}
 #pragma endregion
-	};
+	private: System::Void OptionsTab_Load(System::Object^ sender, System::EventArgs^ e) {
+		this->dedservTab->Enabled = false;
+	}
+	private: System::Void launchBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		Process::Start("pjgossamer.exe", this->textBox1->Text);
+		Application::Exit();
+	}
+	private: System::Void cancelBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->Close();
+	}
+	private: System::Void exitToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->Close();
+	}
+	private: System::Void aboutToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+		Process::Start("https://pjgossamer.github.io/commands");
+	}
+};
 }
