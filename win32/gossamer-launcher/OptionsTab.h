@@ -9,6 +9,8 @@ namespace gossamerlauncher {
 	using namespace System::Data;
 	using namespace System::Drawing;
 	using namespace System::Diagnostics;
+	using namespace System::IO;
+	using namespace Microsoft::VisualBasic::MyServices;
 
 	/// <summary>
 	/// Summary for OptionsTab
@@ -80,12 +82,12 @@ namespace gossamerlauncher {
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->file = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->openToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->saveToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->toolStripSeparator1 = (gcnew System::Windows::Forms::ToolStripSeparator());
 			this->exitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->help = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->openToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->tabControl->SuspendLayout();
 			this->gameTab->SuspendLayout();
 			this->dedservTab->SuspendLayout();
@@ -202,13 +204,20 @@ namespace gossamerlauncher {
 			this->file->Size = System::Drawing::Size(37, 20);
 			this->file->Text = L"&File";
 			// 
+			// openToolStripMenuItem
+			// 
+			this->openToolStripMenuItem->Name = L"openToolStripMenuItem";
+			this->openToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->openToolStripMenuItem->Text = L"&Open";
+			this->openToolStripMenuItem->Click += gcnew System::EventHandler(this, &OptionsTab::openToolStripMenuItem_Click);
+			// 
 			// saveToolStripMenuItem
 			// 
 			this->saveToolStripMenuItem->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
-			this->saveToolStripMenuItem->Enabled = false;
 			this->saveToolStripMenuItem->Name = L"saveToolStripMenuItem";
 			this->saveToolStripMenuItem->Size = System::Drawing::Size(180, 22);
 			this->saveToolStripMenuItem->Text = L"&Save";
+			this->saveToolStripMenuItem->Click += gcnew System::EventHandler(this, &OptionsTab::saveToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
@@ -237,13 +246,6 @@ namespace gossamerlauncher {
 			this->aboutToolStripMenuItem->Size = System::Drawing::Size(182, 22);
 			this->aboutToolStripMenuItem->Text = L"Console Commands";
 			this->aboutToolStripMenuItem->Click += gcnew System::EventHandler(this, &OptionsTab::aboutToolStripMenuItem_Click);
-			// 
-			// openToolStripMenuItem
-			// 
-			this->openToolStripMenuItem->Enabled = false;
-			this->openToolStripMenuItem->Name = L"openToolStripMenuItem";
-			this->openToolStripMenuItem->Size = System::Drawing::Size(180, 22);
-			this->openToolStripMenuItem->Text = L"&Open";
 			// 
 			// OptionsTab
 			// 
@@ -290,6 +292,74 @@ namespace gossamerlauncher {
 	}
 	private: System::Void aboutToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 		Process::Start("https://pjgossamer.github.io/commands");
+	}
+	private: System::Void saveToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (tabControl->SelectedTab == gameTab)
+		{
+			SaveFileDialog^ sfd = gcnew SaveFileDialog();
+			sfd->Filter = "Configuration File|*.pjgclient";
+			sfd->FilterIndex = 1;
+			sfd->RestoreDirectory = true;
+			sfd->Title = "Save Configuration File for Project Gossamer";
+			if (sfd->ShowDialog() == Windows::Forms::DialogResult::OK)
+			{
+				String^ FileName = sfd->FileName;
+				StreamWriter^ sw = gcnew StreamWriter(FileName, false);
+				sw->WriteLine(textBox1->Text);
+				sw->Close();
+				return;
+			}
+		}
+		if (tabControl->SelectedTab == dedservTab)
+		{
+			SaveFileDialog^ sfd = gcnew SaveFileDialog();
+			sfd->Filter = "Configuration File|*.pjgserver";
+			sfd->FilterIndex = 1;
+			sfd->RestoreDirectory = true;
+			sfd->Title = "Save Configuration File for Project Gossamer Dedicated Server";
+			if (sfd->ShowDialog() == Windows::Forms::DialogResult::OK)
+			{
+				String^ FileName = sfd->FileName;
+				StreamWriter^ sw = gcnew StreamWriter(FileName, false);
+				sw->WriteLine(textBox2->Text);
+				sw->Close();
+				return;
+			}
+		}
+	}
+	private: System::Void openToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (tabControl->SelectedTab == gameTab)
+		{
+			OpenFileDialog^ ofd = gcnew OpenFileDialog();
+			ofd->Filter = "Configuration File|*.pjgclient";
+			ofd->FilterIndex = 1;
+			ofd->RestoreDirectory = true;
+			ofd->Title = "Open Configuration File for Project Gossamer";
+			if (ofd->ShowDialog() == Windows::Forms::DialogResult::OK)
+			{
+				String^ FileName = ofd->FileName;
+				StreamReader^ sr = gcnew StreamReader(FileName, false);
+				textBox1->Text = sr->ReadLine();
+				sr->Close();
+				return;
+			}
+		}
+		if (tabControl->SelectedTab == dedservTab)
+		{
+			OpenFileDialog^ ofd = gcnew OpenFileDialog();
+			ofd->Filter = "Configuration File|*.pjgserver";
+			ofd->FilterIndex = 1;
+			ofd->RestoreDirectory = true;
+			ofd->Title = "Open Configuration File for Project Gossamer Dedicated Server";
+			if (ofd->ShowDialog() == Windows::Forms::DialogResult::OK)
+			{
+				String^ FileName = ofd->FileName;
+				StreamReader^ sr = gcnew StreamReader(FileName, false);
+				textBox2->Text = sr->ReadLine();
+				sr->Close();
+				return;
+			}
+		}
 	}
 };
 }

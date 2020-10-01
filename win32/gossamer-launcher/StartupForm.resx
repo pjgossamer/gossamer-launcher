@@ -214,13 +214,13 @@
     <value>408, 281</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 15</value>
+    <value>266, 15</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Gossamer Launcher (Beta) Version 0.9.44.227b</value>
+    <value>Gossamer Launcher (Beta) Version 0.9.44.227c</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
